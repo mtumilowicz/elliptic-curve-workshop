@@ -9,11 +9,10 @@ import scala.util.Random
 object EcdsaSpec extends ZIOSpecDefault {
   override def spec: Spec[TestEnvironment with Scope, Any] = suite("")(
     test("") {
-
-      val x = Curve.x
-      val y = Curve.y
-      val n = Curve.n
-      val g_point = Curve.g_point
+      val x = Curve.Secp256k1.x
+      val y = Curve.Secp256k1.y
+      val n = Curve.Secp256k1.n
+      val g_point = Curve.Secp256k1.g_point
 
       def signMessage(message: BigInt, privateKey: BigInt): (BigInt, BigInt) = {
         val k = BigInt(n.bitLength, new Random())
