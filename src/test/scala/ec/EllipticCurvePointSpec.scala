@@ -10,6 +10,13 @@ object EllipticCurvePointSpec extends ZIOSpecDefault {
       check(EcPointGenerator.secp256k1) { point =>
         assertTrue(point.add(point) == point.multiply(2))
       }
+    },
+    test("b") {
+      check(EcPointGenerator.secp256k1) { point =>
+        val mirror = point.multiply(-1)
+        assertTrue(point.x == mirror.x &&
+        point.y == mirror.y)
+      }
     }
   )
 }
