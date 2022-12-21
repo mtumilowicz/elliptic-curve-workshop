@@ -4,15 +4,16 @@
 
 * take a look here: https://github.com/mtumilowicz/cryptography-math-basics
 
-## Essentials of Elliptic Curves
+## basics
 * equation for an elliptic curve: y² = x³ + ax + b
     * https://www.desmos.com/calculator/wwpunn6ipg?lang=en
 * properties
     * symmetric along the x-axis
         * for any point on the curve A, we can get its mirror point, called -A, by simply mirroring its y coordinate
-    * If we draw a line through any of two points not lying on a vertical line, it will intersect the curve at exactly one more point!
+    * if we draw a line through any of two points not lying on a vertical line, it will intersect the curve
+    at exactly one more point
         * reflection of that point is called the sum of A and B
-    * If we draw a tangent line through any point A lying on a curve, it will intersect the curve at exactly one point.
+    * if we draw a tangent line through any point A lying on a curve, it will intersect the curve at exactly one point
         * call this point -2A
         * multiplication by number: A + 2A = 3A
             * example, to get 10A:
@@ -20,87 +21,94 @@
               4A = 2A + 2A
               8A = 4A + 4A
               10A = 8A + 2A
-    * What we can do with points on a curve:
-      Addition of two points (A + B)
-      Subtraction of two points A — B = (A + (-B))
-      Doubling of a point (multiplication by two) 2A
-      Multiplying by any integer (by combining the previous operations together, we can get any integer * Point)
-    * What we can’t do:
-      Multiplication of two points
-      Division of a point over another point
-      Division of a point over a scalar value
-        * Eventually, we can multiply a point by any integer, but there is no way to get the integer back
-        * what makes the elliptic curves very good for cryptography
+    * what we can do with points on a curve:
+        * addition of two points: (A + B)
+        * subtraction of two points: A — B = (A + (-B))
+        * doubling of a point (multiplication by two): 2A
+        * multiplying by any integer: any integer * Point
+            * combining previous operations
+    * what we can’t do:
+        * multiplication of two points
+        * division of a point over another point
+        * division of a point over a scalar value
+            * observation: we can multiply a point by any integer, but there is no way to get the integer back
+            * makes the elliptic curves very good for cryptography
 
-## Elliptic curves over finite fields
+## finite fields
 * put our elliptic curve over a finite field
-    * y² = x³ + ax + b ---> y² mod p = x³ + ax + b mod p
-    * now both parts of the equation are now under the modulo p
-* Let’s use the elliptic curve with the following configuration for our examples:
-  a = 0
-  b = 7
-  p = 11
-    * https://graui.de/code/elliptic2/
-* It has a finite set of points and most importantly, works like an elliptic curve
-    * it preserves all the properties and formulas of the “original” elliptic curve
-    * We need to slightly modify our formulas by executing them mod p
-* Every point on a curve has its own order n
-    * example, if the order n of point C is 12, it means that 12C = 0
-        * 13C = C, 16C = 4C, 27C = 3C
-* To define an elliptic curve, we now need three variables: a, b, and p
+    * elliptic curve: `y² = x³ + ax + b`
+    * elliptic curve over finite field: `y² mod p = x³ + ax + b mod p`
+        * both parts of the equation are now under the modulo p
+* to define an elliptic curve, we now need three variables: a, b, and p
     * p is called the order of an elliptic curve
     * example
-        * They use the standardized elliptic curve called secp256k1. It has the following variables:
-          a=0
-          b=7
-          p=115792089237316195423570985008687907853269984665640564039457584007908834671663
+        * example: secp256k1
+            * a=0
+            * b=7
+            * p=115792089237316195423570985008687907853269984665640564039457584007908834671663
+* examples
+    * https://graui.de/code/elliptic2/
+    * parameters
+        * a = 0
+        * b = 7
+        * p = 11
+* has a finite set of points and works like an elliptic curve
+    * preserves all the properties and formulas of the "original" elliptic curve
+    * only difference: slightly modify formulas by executing them mod p
+        * example
+            * multiplicative inverse can be found by the Extended Euclidean algorithm - O(log(n))
+* every point on a curve has its own order n
+    * example
+        * if the order n of point C is 12, it means that
+        * 12C = 0
+        * 13C = C, 16C = 4C, 27C = 3C
 
 ## ECDSA (Elliptic Curves Digital Signature Algorithm)
-* This algorithm allows a person to sign a message using their PrivateKey, so that anyone else can verify that the signature actually belongs to that person, also knowing their PublicKey.
-* How it works
-    * Everything spins around one certain predefined point G, lying on a predefined elliptic curve.
-        * We can generate any random integer and call it our PrivateKey.If we multiply this PrivateKey to point G, we will get the PublicKey. So PublicKey = PrivateKey * G:
-        * Point G
-            * Predefined point that everyone knows and
-            uses
-            • Lies on the predefined
-            curve
-            * is called the Generator Point
+* what we have
+    * set of "global" public variables of elliptic curve
+        * config (a, b, p)
+        * Point G (Generator Point)
+            * lies on the curve
+        * Order n of point G
+    * PrivateKey
+        * any random integer
+        * kept in secret by its "owner"
+    * PublicKey
+        * just point on the curve
+        * there is no way to exctact the PrivateKey back
+* signing a message
+    * what we have
         * PrivateKey
-            • Any random integer
-            • Kept in secret by its
-            "owner"
-        * PublicKey
-          • Just point on the curve
-          • There is no way to exctact the PrivateKey
-          back
-* In ECDSA, we have this set of “global” public variables. They are specified by standards:
-  Elliptic curve with some config (a, b, p)
-  Point G, which lies on the curve (its x and y coordinates). This is called the Generator Point. This point is standardized.
-  Order n of point G. As we know, order n is the property for point G, such as G*(n+1) = G, G*(n+2) = 2G, and so on.
-* multiplicative inverse can be found by the Extended Euclidean algorithm, which has the complexity of O(log(n))
-* The algorithm for signing a message:
-    * We have our PrivateKey and a message
-    * To sign a message, we should:
-      Generate a random integer k. It should be a big number. [1, n-1]
-      Calculate point R = G * k
-      Calculate r: r = Rx mod n (if r == 0 start again with new k)
-      Calculate s: s = (message + r*PrivateKey)*k^(-1) mod n (k^(-1) is multiplicative inverse of k)
-    * The signature is a pair of integers (r, s)
-* The algorithm for verifying a signature
-    * We have the signer’s PublicKey, message, and signature(r, s)
-    1. Calculate U: U = message * s^(-1) mod n, s-1 is multip;icative inverse
-    1. Calculate V: V = r*s^(-1) mod n, where s ...
-    1. Calcualte point C = U*G + V*PublicKey
-        * if c.x mod n = r => valid
-    * proof that it works
+        * a message
+    * algorithm
+        1. generate a random integer k
+            * it should be a big number in range [1, n-1]
+        1. calculate point R = G * k
+        1. signature: a pair of integers `(r, s)`
+            * r = Rx mod n
+                * (if r == 0 start again with new k)
+            * s = (message + r*PrivateKey)*k^(-1) mod n
+                * k^(-1) is multiplicative inverse of k
+* verifying a signature
+    * what we have
+        * signer’s PublicKey, message, and signature `(r, s)`
+    * algorithm
+        1. calculate U
+            * U = message * s^(-1) mod n
+                * s^(-1) is multiplicative inverse of k
+        1. calculate V
+            * V = r*s^(-1) mod n, where s ...
+        1. calculate point C
+            * C = U * G + V * PublicKey
+                * if c.x mod n = r => valid
+    * proof
         * C = U * G + V * PublicKey
         * substitute with definitions
-        * C = message * s^(-1) * G + r*s^(-1)*G*PrivateKey
-        * C = G*s^(-1) * (message + r*PrivateKey)
-            * from the signing algo: s = (message + r*PrivateKey)*k^(-1)
-            * s^(-1) = (message + r*PrivateKey)^(-1)*k
-            * substitute
-            * C = Gk
-                * Thus, if the signature is correct, the x coordinate of C mod n is equal to r (which is, by its definition, the same x coordinate of G * k)
-                    * from signing algo: r = Rx mod n, where = Gk
+            * C = message * s^(-1) * G + r*s^(-1)*G*PrivateKey
+            * C = G * s^(-1) * (message + r * PrivateKey)
+                * from the signing algorithm: s = (message + r * PrivateKey) * k^(-1)
+                    * s^(-1) = (message + r * PrivateKey)^(-1) * k
+                    * substitute
+                        * C = Gk
+                            * thus, if the signature is correct, the x coordinate of C mod n is equal to r (which is, by its definition, the same x coordinate of G * k)
+                                * from signing algo: r = Rx mod n, where = Gk
