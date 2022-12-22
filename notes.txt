@@ -1,5 +1,12 @@
 * references
     * https://habr.com/en/post/692072/
+    * https://profilpelajar.com/article/Elliptic_curve_point_multiplication
+    * https://en.wikipedia.org/wiki/Projective_plane
+    * https://en.wikipedia.org/wiki/Point_at_infinity
+    * https://blogs.scientificamerican.com/roots-of-unity/a-few-of-my-favorite-spaces-the-fano-plane/
+    * https://www.mathematicalgemstones.com/gemstones/opal/geometry-of-the-real-projective-plane/
+    * https://www.amazon.com/Blockchain-Distributed-Ledgers-Alexander-Lipton/dp/9811221510
+    * https://crypto.stackexchange.com/questions/70507/in-elliptic-curve-what-does-the-point-at-infinity-look-like
 
 * take a look here: https://github.com/mtumilowicz/cryptography-math-basics
 
@@ -34,7 +41,7 @@
               8A = 4A + 4A
               10A = 8A + 2A
 * summary
-    * what we can do with points on a curve
+    * what we can do
         * addition of two points: (A + B)
         * subtraction of two points: A — B = (A + (-B))
         * multiplication by two: 2A
@@ -44,6 +51,9 @@
         * division of a point over another point
         * division of a point over a scalar value
             * observation: we can multiply a point by any integer, but there is no way to get the integer back
+               * analogy: point P on a circle
+                    * adding 1000 or 1001 times 42.57 degrees will yield a point that requires a bit more complex
+                    calculation to be found
             * makes the elliptic curves very good for cryptography
 
 ## over finite fields
@@ -74,6 +84,110 @@
             * if the order n of point C is 12, it means that
             * 12C = 0
             * 13C = C, 16C = 4C, 27C = 3C
+* projective plane
+    * projective plane
+        * is a geometric structure that extends the concept of a plane
+        * can be thought of as an ordinary plane equipped with additional "points at infinity" where parallel lines intersect
+            * any two distinct lines in a projective plane intersect at exactly one point
+    * Have you ever thought it was kind of a bummer that some lines in the plane intersect, but some don’t? How arbitrary! Projective planes allow you to smooth out this irritating problem by forcing lines to intersect.
+    * To be a projective plane, a few conditions must be satisfied.
+        * Every pair of points is connected by a line.
+        * Every line intersects every other line.
+        * There are four points such that no line contains more than two of them. (This third condition is not always listed, but it rules out silly cases such as 2 points on one line or several lines that go through one point.)
+    * Anything that satisfies these rules is a projective plane
+    * example
+        * finite - Fano plane
+            ![alt text](img/fano.png)
+            * smallest finite projective plane
+            * counterintuitive
+                1. it does not have infinitely many points but only 7
+                    * lines aren’t made of points, they’re just lines
+                1. one of the lines looks like a circle
+                    * lines aren’t made of infinitely many points, it shouldn’t be too hard for you to convince yourself that the circle is really a line
+        * inifite - Real Projective Plane
+            * When you think about it, this is a rather natural model of things we see in reality. Suppose you are standing on parallel train tracks and looking out towards the horizon along the direction of the tracks. The tracks are parallel, but they appear to converge to a point on the horizon
+            * for each set of parallel lines on the plane attach a point “at infinity” that is connected to all of them
+                * Now the lines intersect
+            * To take care of the requirement that every pair of points is connected by exactly one line, we decide to call the set of all the “points at infinity” the “line at infinity.”
+            * There is another, more symmetric way to define the real projective plane
+                * We can think of a point in the real projective plane as a ratio (a:b:c) of three real numbers
+                    * called its homogeneous coordinates
+                    * Since we only care about the ratio between the numbers, (2:4:5) and (6:12:15) describe the same point
+                    * A line is then defined as the set of solutions (a:b:c) to a linear equation `αx+βy+γz=0` for some fixed α, β, γ
+                        * it is equivalent to our first definition of the real projective plane
+                            * Each point either has z=0 or z≠0
+                                * z≠0 => we can normalize so that z=1 and then take (x:y:1) to be the point (x,y) in ℝ2
+                                * z=0 => form the new line where (x:y:0) corresponds to the direction with "slope" y/x (or the vertical direction, if x is 0)
+* point at infinity
+    * prerequisite
+        * projective plane
+            * is a geometric structure that extends the concept of a plane
+            * can be thought of as an ordinary plane equipped with additional "points at infinity" where parallel lines intersect
+                * any two distinct lines in a projective plane intersect at exactly one point
+        * Have you ever thought it was kind of a bummer that some lines in the plane intersect, but some don’t? How arbitrary! Projective planes allow you to smooth out this irritating problem by forcing lines to intersect.
+        * To be a projective plane, a few conditions must be satisfied.
+            * Every pair of points is connected by a line.
+            * Every line intersects every other line.
+            * There are four points such that no line contains more than two of them. (This third condition is not always listed, but it rules out silly cases such as 2 points on one line or several lines that go through one point.)
+        * Anything that satisfies these rules is a projective plane
+        * example
+            * finite - Fano plane
+                ![alt text](img/fano.png)
+                * smallest finite projective plane
+                * counterintuitive
+                    1. it does not have infinitely many points but only 7
+                        * lines aren’t made of points, they’re just lines
+                    1. one of the lines looks like a circle
+                        * lines aren’t made of infinitely many points, it shouldn’t be too hard for you to convince yourself that the circle is really a line
+            * inifite - Real Projective Plane
+                * When you think about it, this is a rather natural model of things we see in reality. Suppose you are standing on parallel train tracks and looking out towards the horizon along the direction of the tracks. The tracks are parallel, but they appear to converge to a point on the horizon
+                * for each set of parallel lines on the plane attach a point “at infinity” that is connected to all of them
+                    * Now the lines intersect
+                * To take care of the requirement that every pair of points is connected by exactly one line, we decide to call the set of all the “points at infinity” the “line at infinity.”
+                * There is another, more symmetric way to define the real projective plane
+                    * We can think of a point in the real projective plane as a ratio (a:b:c) of three real numbers
+                        * called its homogeneous coordinates
+                        * Since we only care about the ratio between the numbers, (2:4:5) and (6:12:15) describe the same point
+                        * A line is then defined as the set of solutions (a:b:c) to a linear equation `αx+βy+γz=0` for some fixed α, β, γ
+                            * it is equivalent to our first definition of the real projective plane
+                                * Each point either has z=0 or z≠0
+                                    * z≠0 => we can normalize so that z=1 and then take (x:y:1) to be the point (x,y) in ℝ2
+                                    * z=0 => form the new line where (x:y:0) corresponds to the direction with "slope" y/x (or the vertical direction, if x is 0)
+    * projectivization of elliptic curves
+        * projectivization: "lift" elliptic curves from the affine (x, y) plane to the projective (X ∶ Y ∶ Z ) plane
+            * Let x = X∕Z, y = Y∕Z , assumes the form: Y2Z = X3 + aXZ2 + bZ3
+                * observation: if (X, Y, Z ) is a point on the curve, so is (𝜆X, 𝜆Y, 𝜆Z ) for any 𝜆
+                * we define two-dimensional projective space as the set of equivalence classes of nonzero points (X, Y, Z ), where points (X, Y, Z ) and (𝜆X, 𝜆Y, 𝜆Z ) are considered to be equivalent
+                    * Intuitively, the three-dimensional space is reduced to two dimensions by treating lines passing through the origin as a single point
+                    * We use the notation (X ∶ Y ∶ Z ) for a projective point to emphasize this fact. Thus, (X ∶ Y ∶ Z ) = (𝜆X ∶ 𝜆Y ∶ 𝜆Z )
+                * solutions
+                    * if Z ≠ 0, then we can divide X, Y by Z, consider x = X∕Z, y = Y∕Z and get a solution of the affine equation
+                    * if Z = 0, then division by Z is not allowed, so that there are points on the projective curve that do not correspond to points on the affine curve
+                        * These points have the form (0 ∶ y ∶ 0), for any y ≠ 0.
+                        * Given that points in the projective plane are defined as equivalence classes, we can choose the following point O = (0 ∶ 1 ∶ 0), called the point at infinity or the neutral element
+                            * intuitively think that O is a point located infinitely high (and low) on the y-axis
+        ![alt text](img/elliptic-curve.png)
+        * paste picture above on the plane 𝑧=1
+        ![alt text](img/projectivization.png)
+        * now we can assign every projective lines (𝑋:𝑌:𝑍) satisfying 𝑌2𝑍=𝑋3−𝑋𝑍2+𝑍3 with the affine points (𝑥,𝑦) satisfying 𝑦2=𝑥3−𝑥+1 pasted on the plane  𝑧=1
+            * all except for one such projective line: (0:1:0)
+                * which is exactly the point at infinity
+            * as you get further and further out the wings of the curve, the line gets closer and closer to the 𝑦 axis—along both wings
+                * In the limit toward infinity, which has no affine coordinates, you just get the 𝑦 axis 𝑥=𝑧=0
+            * take a first picture and start drawing lines on r2 between 0.0 and farther and farther point on EC => you are closer and closer to y axis
+                * and now do the same but start from 0.0.0 and draw in r3, you will be closer and closer to y axis as z will be smaller and smaller
+
+
+* some curves form a single cyclic group
+    * others form several non-overlapping cyclic subgroups
+        * points on the curve are split into h cyclic subgroups
+            * r - "order" of the cyclic subgroup (the total number of all points in the subgroup)
+    * number of cyclic subgroups is called "cofactor"
+        * if the curve consists of only one cyclic subgroup, its cofactor h = 1
+            * example: secp256k1
+        * if the curve consists of several subgroups, its cofactor > 1
+            * example: Curve25519
+                * cofactor = 8
 
 ## ECDSA (Elliptic Curves Digital Signature Algorithm)
 * what we have
@@ -81,13 +195,18 @@
         * config (a, b, p)
         * Point G (Generator Point)
             * lies on the curve
-        * Order n of point G
+            * G can generate any other point in its subgroup by multiplying G by some integer in the range [0...r]
+        * order n of point G
+            * order of the cyclic subgroup (the total number of all points in the subgroup)
     * PrivateKey
         * any random integer
         * kept in secret by its "owner"
+        * deriving public key from private key
+            * private key = randomly generated number k
+            * public key = private key * G
     * PublicKey
         * just point on the curve
-        * there is no way to exctact the PrivateKey back
+        * there is no way to extract the PrivateKey back
 * signing a message
     * what we have
         * PrivateKey
