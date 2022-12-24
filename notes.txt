@@ -23,9 +23,15 @@
     * implement function to sign a message according to ECDSA spec
 
 ## basics
-* it could be valuable to take a look here first: https://github.com/mtumilowicz/cryptography-math-basics
+* it could be valuable to take a look here first
+    * introduction to cryptography: https://github.com/mtumilowicz/cryptography-math-basics
+    * introduction to property based testing: https://github.com/mtumilowicz/scala-zio2-test-aspects-property-based-testing-workshop
 * equation for an elliptic curve: y² = x³ + ax + b
     * https://www.desmos.com/calculator/wwpunn6ipg?lang=en
+    * called Weierstrass form
+    * example: Bitcoin curve
+        * y^2 = x^3 + 7
+        * p = 2^256 - 2^32 - 2^9 -2^8 - 2^7 - 2^6 - 2^4 - 1
 * properties
     * symmetric along the x-axis
         * for any point on the curve A, we can get its mirror point, called -A, by simply mirroring its y coordinate
