@@ -1,3 +1,6 @@
+[![Build Status](https://app.travis-ci.com/mtumilowicz/elliptic-curve-workshop.svg?token=PwyvjePQ7aiAX51hSYLE&branch=master)](https://app.travis-ci.com/mtumilowicz/elliptic-curve-workshop)
+[![License: GPL v3](https://img.shields.io/badge/License-GPLv3-blue.svg)](https://www.gnu.org/licenses/gpl-3.0)
+
 * references
     * https://habr.com/en/post/692072/
     * https://profilpelajar.com/article/Elliptic_curve_point_multiplication
