@@ -9,8 +9,6 @@
     * https://crypto.stackexchange.com/questions/70507/in-elliptic-curve-what-does-the-point-at-infinity-look-like
     * https://trustica.cz/2018/03/29/elliptic-curves-point-at-infinity/
 
-* take a look here: https://github.com/mtumilowicz/cryptography-math-basics
-
 ## preface
 * goals of this workshop
     * introduction to elliptic curves
@@ -25,6 +23,7 @@
     * implement function to sign a message according to ECDSA spec
 
 ## basics
+* it could be valuable to take a look here first: https://github.com/mtumilowicz/cryptography-math-basics
 * equation for an elliptic curve: y² = x³ + ax + b
     * https://www.desmos.com/calculator/wwpunn6ipg?lang=en
 * properties
