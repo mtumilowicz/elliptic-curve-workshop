@@ -114,7 +114,11 @@
             * example: Curve25519
                 * cofactor = 8
 * discrete logarithm problem
-   * G generates a subgroup of an EC over a field F, P is another member of EC => find k: P = kG
+    * G generates a subgroup of an EC over a field F, P is another member of EC => find k: P = kG
+    * known algorithms have exponential time complexity (n - order of the group)
+    * intuition: point multiplication is not a straightforward, linear process
+        * defined by a combination of point addition and doubling operations
+        * no known efficient way to "reverse" it
 
 ### point at infinity
 * outline of the problem
