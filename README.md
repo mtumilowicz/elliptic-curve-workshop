@@ -11,6 +11,8 @@
     * https://www.amazon.com/Blockchain-Distributed-Ledgers-Alexander-Lipton/dp/9811221510
     * https://crypto.stackexchange.com/questions/70507/in-elliptic-curve-what-does-the-point-at-infinity-look-like
     * https://trustica.cz/2018/03/29/elliptic-curves-point-at-infinity/
+    * [Devoxx Greece 2024 - Asymmetric Cryptography: A Deep Dive by Eli Holderness](https://www.youtube.com/watch?v=Q20H-H91-Vk)
+    * https://chatgpt.com/
 
 ## preface
 * goals of this workshop
@@ -111,6 +113,8 @@
         * if the curve consists of several subgroups, its cofactor > 1
             * example: Curve25519
                 * cofactor = 8
+* discrete logarithm problem
+   * G generates a subgroup of an EC over a field F, P is another member of EC => find k: P = kG
 
 ### point at infinity
 * outline of the problem
